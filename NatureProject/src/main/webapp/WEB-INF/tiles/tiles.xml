@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="parent" template="/WEB-INF/views/BaseJsp.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/include/preScript.jsp" />
+		<put-attribute name="postScript" value="/WEB-INF/include/postScript.jsp" />
+		<put-attribute name="header"  value="/WEB-INF/include/header.jsp" />
+		<put-attribute name="footer"  value="/WEB-INF/include/footer.jsp" />
+	</definition>
+	
+	<definition name="index" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/views/index.jsp"></put-attribute>
+	</definition>
+	<definition name="board/*" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"></put-attribute>
+	</definition>
+	<definition name="user/*" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/views/user/{1}.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>

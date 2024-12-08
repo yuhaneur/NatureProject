@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.board.dao.BoardDAO">
+
+<select id="selectBoardList" resultType="BoardVO">
+	SELECT 
+		BOARD_CODE,BOARD_SJ,BOARD_VIEWS,
+		BOARD_WRITE_DATE,BOARD_SUGGESTION_CNT,
+		BOARD_WRITER,BOARD_FILE_NAME,BOARD_FILE_PATH,
+		BOARD_YN 
+	FROM board
+</select>
+</mapper>

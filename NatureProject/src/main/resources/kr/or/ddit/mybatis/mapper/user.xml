@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.user.dao.UserDAO">
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="UserVO">
+		SELECT USER_ID,USER_CODE,USER_PW,USER_EMAIL,USER_NAME,USER_ROLE,USER_STATUS
+		FROM USER
+		WHERE USER_ID=#{userId}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="UserVO">
+		<selectKey keyProperty="userCode" order="BEFORE" resultType="String">
+			SELECT CONCAT('USC', LPAD(coalesce(MAX(CAST(SUBSTRING(USER_CODE,4) AS UNSIGNED)),0)+1,7,0))
+			FROM USER
+		</selectKey>
+		INSERT INTO USER
+			(
+				USER_CODE,
+				USER_ID,
+				USER_PW,
+				USER_EMAIL,
+				USER_NAME,
+				USER_CREATE,
+				USER_BIR,
+				USER_STATUS,
+				USER_ROLE
+			)
+		VALUES
+			(
+				#{userCode},		
+				#{userId},		
+				#{userPw},		
+				#{userEmail},		
+				#{userName},		
+				sysdate(),		
+				#{userBir},		
+				'N',		
+				'USER'		
+			)
+	</insert>
+</mapper>

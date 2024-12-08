@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.8.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" factory-method="createDelegatingPasswordEncoder"></bean>
+<!-- 인증처리 -->
+   <security:authentication-manager>
+   <!-- 인증처리인터페이스 구현할 클래스 적기 -->
+      <security:authentication-provider user-service-ref="customUsersDetailsService">
+         <security:password-encoder ref="passwordEncoder"/>
+      </security:authentication-provider>
+   </security:authentication-manager>
+
+   <!-- HTTP 보안설정  -->
+   <security:http>
+      <!-- csrf(사용자 의지 상관없이 공격자가 의도한 요청 강제시도) 공격막을거임 -->
+      <security:csrf disabled="true"/>
+      <!-- 정적자원은 모든접근 허용 -->
+      <security:intercept-url pattern="/resource/**" access="permitAll"/>
+      <!-- 내가만든 로그인화면으로 대체할거임
+         username,password 내가 정해놓은 아이디 비번의 필드명
+         default-target-url : 로그인 성공하고 이동할 url
+         login-processing-url : 로그인 폼 제출할때 자동인증해주는애
+       -->
+      <security:form-login login-page="/default_login"
+      				  login-processing-url="/login" 
+                      username-parameter="userId"
+                      password-parameter="userPw"
+                      default-target-url="/"/>
+      <!-- 로그아웃 설정
+         invalidate-session 세션 지울거임
+       -->
+      <security:logout logout-url="/logout"
+                   invalidate-session="true"
+                   logout-success-url="/"
+      />
+   </security:http>
+</beans>
